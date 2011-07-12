@@ -24,6 +24,11 @@ PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED gobject-2.0 >= $GLIB_REQUIRED
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
+GEE_REQUIRED=0.6.1
+PKG_CHECK_MODULES(GEE, gee-1.0 >= $GEE_REQUIRED)
+AC_SUBST(GEE_CFLAGS)
+AC_SUBST(GEE_LIBS)
+
 have_libpnd=no
 AC_SEARCH_LIBS([pnd_box_new], [pnd], [have_libpnd=yes], [], [-lstdc++])
 if test "x${have_libpnd}" = xyes; then

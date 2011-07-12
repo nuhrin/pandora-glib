@@ -4,6 +4,7 @@ AUTOMAKE_OPTIONS = subdir-objects
 
 AM_CPPFLAGS = \
   $(GLIB_CFLAGS) \
+  $(GEE_CFLAGS) \
   $(NULL)
 
 BUILT_SOURCES = libpandora_glib_la_vala.stamp
@@ -22,12 +23,13 @@ libpandora_glib_la_SOURCES = \
   $(NULL)
 
 libpandora_glib_la_vala.stamp: $(libpandora_glib_la_VALASOURCES)
-	$(VALA_V)$(VALAC) $(VALAFLAGS) -C --vapidir $(srcdir)/../vapi --pkg gobject-2.0 --pkg pnd --pkg config -H pandora-glib.h --library pandora-glib $^
+	$(VALA_V)$(VALAC) $(VALAFLAGS) -C --vapidir $(srcdir)/../vapi --pkg gobject-2.0 --pkg gee-1.0 --pkg pnd --pkg config -H pandora-glib.h --library pandora-glib $^
 	@touch $@
  
 libpandora_glib_la_LIBADD = \
   $(YAML_LIBS) \
   $(GLIB_LIBS) \
+  $(GEE_LIBS) \
   $(NULL)
 
 pandoraglibincludedir = $(includedir)/pandora-glib
