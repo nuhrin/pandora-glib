@@ -124,7 +124,7 @@ namespace Pandora.Apps
 
 			// populate Pnd cache
 			var pndAppMap = new Gee.HashMap<string, Gee.ArrayList<App>>();
-			var pndAppFilenames = new Gee.HashSet<string>();
+			var pndAppIdFileHash = new Gee.HashSet<string>();
 			var pndIdList = new Gee.ArrayList<string>();
 			// group apps by pnd
 			foreach(var app in _app_list) {
@@ -133,8 +133,9 @@ namespace Pandora.Apps
 					pndAppMap[pndId] = new Gee.ArrayList<App>();
 					pndIdList.add(pndId);
 				}
-				if (pndAppFilenames.contains(app.filename) == false) {
-					pndAppFilenames.add(app.filename);
+				var apphash = app.filename + app.id;
+				if (pndAppIdFileHash.contains(apphash) == false) {
+					pndAppIdFileHash.add(apphash);
 					pndAppMap[pndId].add(app);
 				}
 			}
@@ -182,6 +183,6 @@ namespace Pandora.Apps
 	public Gee.List<Pnd> get_all_pnds() { return DataCache.get_all_pnds(); }
 	public Gee.List<App> get_all_pnd_apps() { return DataCache.get_all_apps(); }
 
-	public void scan_pnds(string? overrides_path) { DataCache.rescan(overrides_path); }
+	public void scan_pnds(string? overrides_path=null) { DataCache.rescan(overrides_path); }
 	public void clear_pnd_cache() { DataCache.clear(); }
 }
