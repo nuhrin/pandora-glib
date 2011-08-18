@@ -16,6 +16,13 @@ lib_LTLIBRARIES = \
 libpandora_glib_la_VALASOURCES = \
 	Apps.vala \
 	Config.vala \
+	Apps/App.vala \
+	Apps/DataCache.vala \
+	Apps/enums.vala \
+	Apps/Pnd.vala \
+	Config/ConfigFile.vala \
+	Config/AppsConfigFile.vala \
+	Config/DesktopConfigFile.vala \
 	$(NULL)
 
 libpandora_glib_la_SOURCES = \

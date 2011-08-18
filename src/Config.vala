@@ -5,12 +5,8 @@ namespace Pandora
 {
 	namespace Config
 	{
-		public static string apps_searchpath() {
-			var handle = conf_fetch_by_id(ConfFilenameId.APPS, conf_query_searchpath());
-			if (handle != null)
-				return handle.get_string(APPS_KEY);
+		public static AppsConfigFile get_config_apps() throws KeyFileError { return new AppsConfigFile(); }
+		public static DesktopConfigFile get_config_desktop() throws KeyFileError { return new DesktopConfigFile(); }
 
-			return APPS_SEARCHPATH;
-		}
 	}
 }

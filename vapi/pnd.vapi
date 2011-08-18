@@ -84,10 +84,10 @@ namespace pnd.apps {
 	*/
 	[CCode (cname="pnd_apps_exec")]
 	public uint exec (string pndrun, string fullpath, string unique_id, string rel_exe,
-	                         string? rel_startdir, string? args, uint clockspeed, ExecOption options);
+	                         string? rel_startdir=null, string? args=null, uint clockspeed=0, uint options=0);
 	// exec_runline(): returns the cached pnd_run.sh line from last PND_EXEC_OPTION_NORUN
 	[CCode (cname="pnd_apps_exec_runline")]
-	public string exec_runline();
+	public unowned string exec_runline();
 
 	/* exec_disco:
 	 * this is a superior version of pnd_apps_exec(), but avoiding breaking the pnd_apps_exec() API to
@@ -98,9 +98,9 @@ namespace pnd.apps {
 	 * - 'pndrun' is a reference to a pnd_run.sh script, to avoid seeking it out every time
 	 */
 	[CCode (cname="pnd_apps_exec_disco")]
-	public uint exec_disco (string pndrun, PndAppInfo* app, ExecOption options, void *reserved );
+	public uint exec_disco (string pndrun, PndAppInfo* app, uint options=0, void *reserved=null);
 	// for pnd_apps_exec_disco(), when option PND_EXEC_OPTION_INFO is used
-	[CCode (cname="pnd_apps_exec_info_t", has_type_id=false, has_copy_function=false)]
+	[CCode (cname="pnd_apps_exec_info_t", has_type_id=false, has_destroy_function=false, has_copy_function=false)]
 	public struct ExecInfo {
 		public string viewer; // required; viewer's executable
 		public string args;   // optional; arg to viewer; ie: the file to view
@@ -254,7 +254,7 @@ namespace pnd.locate {
 	 * WARNING: Returned path will be over-written, you must duplicate it!
 	 */
 	[CCode (cname="pnd_locate_filename")]
-	public string locate_filename(string searchpath, string filename);
+	public unowned string locate_filename(string searchpath, string filename);
 }
 
 // ****************************************************************************
@@ -319,14 +319,14 @@ namespace pnd.conf {
 		[CCode (cname="pnd_conf_evmap")]
 		EVMAP
 	}
-//~ 	[CCode (cname="pnd_conf_filename_t", has_type_id=false, has_destroy_function=false, has_copy_function=false)]
-//~ 	public struct ConfFilename {
-//~ 		public ConfFilenameId id;
-//~ 		public unowned string filename;
-//~ 	}
-//~
-//~ 	[CCode (array_null_terminated=false, array_length=false, array_length_cexpr="6")]
-//~ 	public extern ConfFilename[] conf_filenames;
+	[CCode (cname="pnd_conf_filename_t", has_type_id=false, has_destroy_function=false, has_copy_function=false)]
+	public struct ConfFilename {
+		public ConfFilenameId id;
+		public unowned string filename;
+	}
+
+	[CCode (array_null_terminated=false, array_length=false, array_length_cexpr="6")]
+	public extern ConfFilename[] conf_filenames;
 
 	//
 	// config FILE reading public API
@@ -398,4 +398,15 @@ namespace pnd.notify {
 		 */
 		public uint wait_until_ready(uint secs_timeout);
 	}
+}
+
+
+// ****************************************************************************
+// pnd.pndfiles: pnd_pndfiles.h
+// ****************************************************************************
+[CCode (cprefix="PND_", lower_case_cprefix = "pnd_", cheader_filename = "stdio.h,pnd_pndfiles.h")]
+namespace pnd.pndfiles {
+	public const string PACKAGE_FILEEXT;
+	public char pnd_mount(string pndrun, string fullpath, string unique_id);
+	public char pnd_unmount(string pndrun, string fullpath, string unique_id);
 }
