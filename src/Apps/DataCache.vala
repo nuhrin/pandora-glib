@@ -27,6 +27,7 @@ namespace Pandora.Apps
 
 			// scan for app info
 			var results = discovery_search(_apps_config.searchpath, _apps_config.overrides_searchpath);
+
 			var head = results.get_head();
 			if (head == null)
 				return;
@@ -36,7 +37,7 @@ namespace Pandora.Apps
 			var currentAppInfo = head;
 			do
 			{
-				var app = new App(currentAppInfo);
+				var app = new App(*currentAppInfo);
 				appList.add(app);
 
 				var kill = currentAppInfo;

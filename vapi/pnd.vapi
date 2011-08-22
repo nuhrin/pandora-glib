@@ -98,7 +98,7 @@ namespace pnd.apps {
 	 * - 'pndrun' is a reference to a pnd_run.sh script, to avoid seeking it out every time
 	 */
 	[CCode (cname="pnd_apps_exec_disco")]
-	public uint exec_disco (string pndrun, PndAppInfo* app, uint options=0, void *reserved=null);
+	public uint exec_disco (string pndrun, PndAppInfo app, uint options=0, void *reserved=null);
 	// for pnd_apps_exec_disco(), when option PND_EXEC_OPTION_INFO is used
 	[CCode (cname="pnd_apps_exec_info_t", has_type_id=false, has_destroy_function=false, has_copy_function=false)]
 	public struct ExecInfo {

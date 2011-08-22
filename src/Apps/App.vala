@@ -6,10 +6,10 @@ namespace Pandora.Apps
 {
 	public class App
 	{
-		internal App(PndAppInfo* app) {
+		internal App(PndAppInfo app) {
 			this.info = app;
 		}
-		internal PndAppInfo* info { get; private set; }
+		internal PndAppInfo info { get; private set; }
 
 		public unowned string id { get { return info.unique_id; } }
 		public unowned string package_id { get { return info.package_id; } }
