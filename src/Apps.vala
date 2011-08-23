@@ -55,5 +55,17 @@ namespace Pandora.Apps
 			return -1;
 		return exec(pndrun, fullpath, unique_id, rel_exe, rel_startdir, args, clockspeed, (uint)options);
 	}
-
+	public string? get_appdata_path(string fullpath, string unique_id) {
+		string command = "sh -c \"df \\\"%s\\\" | tail -1|awk '{print $6}'\"".printf(fullpath);
+		string mountpoint;
+		int result;
+		try {
+			if (Process.spawn_command_line_sync(command, out mountpoint, null, out result) == true && result == 0) {
+				return "%s%s/%s/".printf(mountpoint.strip(), APPS_APPDATA_PREFIX, unique_id);
+			}
+		} catch(SpawnError e) {
+			debug("Error looking up appdata path for %s: %s", fullpath, e.message);
+		}
+		return null;
+	}
 }

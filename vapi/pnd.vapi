@@ -114,14 +114,14 @@ namespace pnd.apps {
 	 * Returns >0 on success, and if not-NULL will fill r_path (up to path_len length.)
 	 */
 	[CCode (cname="pnd_get_appdata_path")]
-	public uint get_appdata_path (string fullpath, string unique_id, ref string r_path, uint path_len);
+	public uint get_appdata_path (string fullpath, string unique_id, char* r_path, uint path_len=1024);
 	/* get_ro_mountpoint() returns the _read only_ mountpoint, where the dir or .pnd is actually
 	 * mounted to. This is probably NOT WHAT YOU WANT. You probably want the read/write mountpoint, which
 	 * is the union-filesystem version of it.. see pnd_get_appdata_path()
 	 *   r_mountpoint (if !NULL) will be populated; mountpoint_len should specify the maxlen of the buffer
 	 */
 	[CCode (cname="pnd_get_ro_mountpoint")]
-	public void get_ro_mountpoint (string fullpath, string unique_id, ref string r_mountpoint, uint mountpoint_len);
+	public void get_ro_mountpoint (string fullpath, string unique_id, char* r_mountpoint, uint mountpoint_len=1024);
 
 
 	// *******************************************************************
