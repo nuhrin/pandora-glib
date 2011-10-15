@@ -144,6 +144,7 @@ namespace pnd.apps {
 	// discovery_file() [pnd_disco_file()]
 	[CCode (cname="pnd_disco_file")]
 	public DiscoveryFileHandle discovery_file(string path, string filename);
+	[Compact]
 	[CCode (cname="void", free_function="pnd_box_delete")]
 	public class DiscoveryFileHandle {
 		DiscoveryFileHandle() {}
@@ -163,15 +164,15 @@ namespace pnd.apps {
 		[CCode (cname="pnd_object_type_max")]
 		MAX
 	}
-	[Flags]
-	[CCode(cprefix = "PND_DISCO_")]
-	public enum ObjectFlags {
-		NONE = 0,
-		FLAG_OVR = 1,
-		GENERATED = 2,
-		CUSTOM1 = (1<<30),
-		CUSTOM2 = (1<<31)
-	}
+//~ 	[Flags]
+//~ 	[CCode(cprefix = "PND_DISCO_")]
+//~ 	public enum ObjectFlags {
+//~ 		NONE = 0,
+//~ 		FLAG_OVR = 1,
+//~ 		GENERATED = 2,
+//~ 		CUSTOM1 = (1<<30),
+//~ 		CUSTOM2 = (1<<31)
+//~ 	}
 	[CCode (cname="pnd_disco_t", destroy_function="pnd_disco_destroy", has_type_id=false, has_copy_function=false)]
 	public struct PndAppInfo {
 		// base
@@ -180,7 +181,7 @@ namespace pnd.apps {
 		public string object_filename;		// filename within object_path of the app: the PXML.xml or awesomeapp.pnd file itself
 		public uint pnd_icon_pos;			// offset to the byte after end of PXML in a pnd file (should be icon if present)
 		public uint subapp_number;			// # of app within PXML (ie: 0, 1, 2, 3, up to the number of apps within the PXML)
-		public ObjectFlags object_flags;	// see PND_DISCO_ bitmasks above
+		public uint object_flags;	// see PND_DISCO_ bitmasks above
 
 		// strdup'd from PXML -- hey, who was the idiot who thought it was a reat idea not to just re-use the pxml-struct?
 		public string package_id;
@@ -209,9 +210,6 @@ namespace pnd.apps {
 
 		[CCode (cname="pnd_box_get_key")]
 		public string get_key();
-		[CCode (cname="pnd_box_get_next")]
-		public PndAppInfo* get_next();
-
 		[CCode (cname="pnd_disco_destroy")]
 		public static void destroy(PndAppInfo* item);
 	}

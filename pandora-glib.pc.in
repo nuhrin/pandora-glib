@@ -9,6 +9,6 @@ vapidir=@datadir@/vala/vapi
 Name: pandora-glib
 Description: Higher level interface to libpnd, primarily intended for use with Vala
 Version: @VERSION@
-Requires: glib-2.0 gobject-2.0
+Requires: glib-2.0 gobject-2.0 gee-0.8
 Libs: -L${libdir} -lpandora-glib
 Cflags: -I${includedir}/pandora-glib

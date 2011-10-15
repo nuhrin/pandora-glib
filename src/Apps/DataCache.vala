@@ -13,7 +13,7 @@ namespace Pandora.Apps
 
 		internal static void rescan() {
 			_app_list = new ArrayList<App>();
-			_app_id_hash = new HashMap<string, App>();
+			_app_id_hash = new HashMap<string, App>(null, null, (a,b) => (a==b));
 			_pnd_list = new ArrayList<Pnd>();
 			_pnd_id_hash = new Gee.HashMap<string, Pnd>();
 			_apps_config = null;
@@ -41,7 +41,7 @@ namespace Pandora.Apps
 				appList.add(app);
 
 				var kill = currentAppInfo;
-				currentAppInfo = currentAppInfo.get_next();
+				currentAppInfo = DiscoverySearchHandle.get_next(currentAppInfo);
 				PndAppInfo.destroy(kill);
 			} while(currentAppInfo != null);
 
