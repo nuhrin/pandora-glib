@@ -45,7 +45,7 @@ namespace pnd.apps {
 	public const string DESKTOP_SEARCH_PATH_DEFAULT;
 
 	// apps
-	public const string DEFAULT_WORKDIR;
+	//public const string DEFAULT_WORKDIR;
 
 	[Flags]
 	[CCode(cprefix = "PND_EXEC_OPTION_")]
@@ -207,6 +207,14 @@ namespace pnd.apps {
 		public string info_name;			// should be a struct..
 		public string info_filename;
 		public string info_type;
+		public string version_major;
+		public string version_minor;
+		public string version_release;
+		public string version_build;
+		public string package_version_major;
+		public string package_version_minor;
+		public string package_version_release;
+		public string package_version_build;	
 
 		[CCode (cname="pnd_box_get_key")]
 		public string get_key();

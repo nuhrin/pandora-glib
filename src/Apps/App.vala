@@ -55,6 +55,14 @@ namespace Pandora.Apps
 		public unowned string info_name { get { return info.info_name; } }
 		public unowned string info_filename { get { return info.info_filename; } }
 		public unowned string info_type { get { return info.info_type; } }
+		public unowned string version_major { get { return info.version_major; } }
+		public unowned string version_minor { get { return info.version_minor; } }
+		public unowned string version_release { get { return info.version_release; } }
+		public unowned string version_build { get { return info.version_build; } }
+		public unowned string package_version_major { get { return info.package_version_major; } }
+		public unowned string package_version_minor { get { return info.package_version_minor; } }
+		public unowned string package_version_release { get { return info.package_version_release; } }
+		public unowned string package_version_build { get { return info.package_version_build; } }
 
 		public ObjectFlags flags { get { return (ObjectFlags)info.object_flags; } }
 
