@@ -1,0 +1,13 @@
+pandora-glib 0.2.1
+==================
+ * Prevent crash when using libpnd from firmware > HF6 (track pnd_disco_t member changes in libpnd)
+
+pandora-glib 0.2.0
+==================
+ * add Pandora.Apps.get_appdata_path
+ * add pnd execute/mount/unmount methods
+ * bug fixes, update vala/libgee
+
+pandora-glib 0.1.0
+==================
+ * initial release with simple, high-level interface to pnd/app discovery
