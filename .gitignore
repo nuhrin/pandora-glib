@@ -30,6 +30,8 @@ stamp-h1
 .tarball-version
 .version
 
+doc/pandora-glib/
+
 src/pandora-glib.vapi
 
 *~

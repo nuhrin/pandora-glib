@@ -1,7 +1,7 @@
 NULL =
 
-if ENABLE_DOC
-DOC_SUBDIR = \
+if ENABLE_DEVHELP
+DEVHELP_SUBDIR = \
   doc \
   $(NULL)
 endif
@@ -9,7 +9,7 @@ endif
 SUBDIRS = \
   src \
   vapi \
-  $(DOC_SUBDIR) \
+  $(DEVHELP_SUBDIR) \
   $(NULL)
 
 DIST_SUBDIRS = \

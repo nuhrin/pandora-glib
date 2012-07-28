@@ -3,11 +3,16 @@ AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([no-dist-gzip dist-bzip2])
+AM_INIT_AUTOMAKE([no-dist-gzip dist-bzip2 tar-ustar])
 
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 AM_MAINTAINER_MODE
+
+# Add config arguments.
+AC_ARG_ENABLE(devhelp, AS_HELP_STRING([--enable-devhelp], [Enable devhelp book generation]), enable_devhelp=$enableval, enable_devhelp=no)
+AM_CONDITIONAL(ENABLE_DEVHELP, test x$enable_devhelp = xyes)
+
 
 # Checks for programs.
 AC_PROG_CC
@@ -19,6 +24,17 @@ AM_PROG_VALAC([0.11.0])
 AC_SUBST(VALAC)
 AC_SUBST(VALAFLAGS)
 
+AS_IF([test "x$enable_devhelp" != xno],
+  [AC_PATH_PROG(VALADOC, valadoc, :)
+   AC_SUBST(VALADOC)
+   AS_IF([test "$VALADOC" = :],
+	 if test -f "doc/pandora-glib/index.htm"; then
+       AC_MSG_WARN([valadoc not found: You will not be able to rebuild devhelp documentation.])
+     else
+       AC_MSG_ERROR([valadoc not found])
+     fi)])
+
+# Checks for packages
 GLIB_REQUIRED=2.16.0
 PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED gobject-2.0 >= $GLIB_REQUIRED)
 AC_SUBST(GLIB_CFLAGS)
@@ -29,25 +45,11 @@ PKG_CHECK_MODULES(GEE, gee-0.8 >= $GEE_REQUIRED)
 AC_SUBST(GEE_CFLAGS)
 AC_SUBST(GEE_LIBS)
 
-have_libpnd=no
-AC_SEARCH_LIBS([pnd_box_new], [pnd], [have_libpnd=yes], [], [-lstdc++])
-if test "x${have_libpnd}" = xyes; then
-  AC_CHECK_HEADERS([pnd_container.h], [], [have_libpnd=no])
-fi
-if test "x${have_libpnd}" = xno; then
-  AC_MSG_ERROR([libpnd not found.])
-fi
+# Check for libpnd.	
+AC_SEARCH_LIBS([pnd_box_new], [pnd], [], [AC_MSG_ERROR([libpnd not found.])], [-lstdc++])
+AC_CHECK_HEADERS([pnd_container.h], [], [AC_MSG_ERROR([libpnd headers not found.])])
 PND_LIBS="$LIBS -lstdc++"
 AC_SUBST(PND_LIBS)
-
-AC_ARG_ENABLE(doc, AS_HELP_STRING([--enable-doc], [Enable documentation generation]), enable_doc=$enableval, enable_doc=no)
-AM_CONDITIONAL(ENABLE_DOC, test x$enable_doc = xyes)
-
-AS_IF([test "x$enable_doc" != xno],
-  [AC_PATH_PROG(VALADOC, valadoc, :)
-   AC_SUBST(VALADOC)
-   AS_IF([test "$VALADOC" = :],
-    [AC_MSG_ERROR([valadoc not found])])])
 
 
 AC_CONFIG_FILES([
@@ -57,4 +59,6 @@ AC_CONFIG_FILES([
 	doc/Makefile
 	vapi/Makefile
 ])
+
 AC_OUTPUT
+
