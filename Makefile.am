@@ -1,5 +1,7 @@
 NULL =
 
+ACLOCAL_AMFLAGS = -I m4
+
 if ENABLE_DEVHELP
 DEVHELP_SUBDIR = \
   doc \

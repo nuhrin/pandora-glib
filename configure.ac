@@ -40,10 +40,8 @@ PKG_CHECK_MODULES(GLIB, glib-2.0 >= $GLIB_REQUIRED gobject-2.0 >= $GLIB_REQUIRED
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-GEE_REQUIRED=0.7.2
-PKG_CHECK_MODULES(GEE, gee-0.8 >= $GEE_REQUIRED)
-AC_SUBST(GEE_CFLAGS)
-AC_SUBST(GEE_LIBS)
+# Check for libgee superproject, then system
+GEE_SEARCH
 
 # Check for libpnd.	
 AC_SEARCH_LIBS([pnd_box_new], [pnd], [], [AC_MSG_ERROR([libpnd not found.])], [-lstdc++])
