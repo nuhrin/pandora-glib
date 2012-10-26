@@ -45,7 +45,7 @@ dist-hook: gen-ChangeLog
 gen_start_date = 2009-02-25
 .PHONY: gen-ChangeLog
 gen-ChangeLog:
-	if test -d .git; then           \
+	if test -e .git; then           \
 	  $(top_srcdir)/build-aux/gitlog-to-changelog     \
 	    --since=$(gen_start_date) > $(distdir)/cl-t;    \
 	  rm -f $(distdir)/ChangeLog;         \
