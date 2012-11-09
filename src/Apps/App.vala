@@ -42,7 +42,9 @@ namespace Pandora.Apps
 		public unowned string filename { get { return info.object_filename; } }
 		public unowned string path { get { return info.object_path; } }
 		public string get_fullpath() { return path + filename; }
-
+		public string get_appdata_path() {
+			return Apps.get_appdata_path(get_fullpath(), appdata_dirname ?? id);
+		}
 		public uint clockspeed {
 			get {
 				if (info.clockspeed == null)
@@ -142,6 +144,6 @@ namespace Pandora.Apps
 			exec(pndrun, get_fullpath(), id, rel_exe ?? exec_command, rel_startdir ?? startdir, args ?? exec_arguments,
 				(clockspeed > 0) ? clockspeed : this.clockspeed, real_options);
 			return exec_runline();
-		}
+		}		
 	}
 }
