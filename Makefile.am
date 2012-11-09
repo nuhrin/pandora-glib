@@ -56,6 +56,7 @@ CLEANFILES = \
 	$(NULL)
 
 EXTRA_DIST = \
+	README.md \
 	pandora-glib.pc.in \
 	.version \
 	build-aux/git-version-gen \

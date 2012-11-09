@@ -1,3 +1,9 @@
+pandora-glib 0.3.0
+=================
+* add Devhelp documentation generation
+* add App.get_appdata_path()
+* build fixes
+
 pandora-glib 0.2.1
 ==================
  * Prevent crash when using libpnd from firmware > HF6 (track pnd_disco_t member changes in libpnd)
