@@ -36,7 +36,7 @@ devhelp_dist = \
 endif
 
 pandora-glib/index.htm:
-	$(VALADOC) $(VALADOC_OPTIONS) --doclet=devhelp --driver=0.18.x --vapidir=$(top_srcdir)/vapi --pkg gee-0.8 --pkg pnd -o pandora-glib/ --force -b $(top_srcdir) $(SRC_FILES)
+	$(VALADOC) $(VALADOC_OPTIONS) --doclet=devhelp --driver=0.18.x --vapidir=$(top_srcdir)/vapi $(GEE_VALAFLAGS) --pkg gee-0.8 --pkg pnd -o pandora-glib/ --force -b $(top_srcdir) $(SRC_FILES)
 	mv pandora-glib tmp
 	mv tmp/pandora-glib .
 	rmdir tmp
