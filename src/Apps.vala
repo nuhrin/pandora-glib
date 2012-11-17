@@ -87,7 +87,7 @@ namespace Pandora.Apps
 				return "%s%s/%s/".printf(mountpoint.strip(), APPS_APPDATA_PREFIX, unique_id);
 			}
 		} catch(SpawnError e) {
-			debug("Error looking up appdata path for %s: %s", fullpath, e.message);
+			warning("Error looking up appdata path for %s: %s", fullpath, e.message);
 		}
 		return null;
 	}
