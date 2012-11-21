@@ -439,3 +439,15 @@ namespace pnd.pndfiles {
 	public char pnd_mount(string pndrun, string fullpath, string unique_id);
 	public char pnd_unmount(string pndrun, string fullpath, string unique_id);
 }
+
+// ****************************************************************************
+// pnd.pndfiles: pnd_utility.h
+// ****************************************************************************
+[CCode (cprefix="PND_", lower_case_cprefix = "pnd_", cheader_filename = "pnd_pxml.h,pnd_utility.h")]
+namespace pnd.utility {
+	public bool check_login(char* username, uint maxlen);
+	public string expand_tilde(string str);
+	public void exec_no_wait_1(string fullpath, string arg1);
+	public bool determine_mountpoint(string fullpath, char* mountpoint, uint mountpoint_len);
+	public bool filecopy(string sourcepath, string targetpath );
+}

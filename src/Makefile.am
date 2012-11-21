@@ -9,6 +9,7 @@ lib_LTLIBRARIES = \
 libpandora_glib_la_SOURCES = \
 	Apps.vala \
 	Config.vala \
+	Utility.vala \
 	Apps/App.vala \
 	Apps/DataCache.vala \
 	Apps/enums.vala \
