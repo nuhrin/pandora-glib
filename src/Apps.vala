@@ -27,6 +27,12 @@ using pnd.conf;
 
 namespace Pandora.Apps
 {
+	public Pnd? get_pnd_direct(string path, string filename) {
+		var apps = DataCache.get_discovered_apps(discovery_file(path, filename));
+		if (apps == null)
+			return null;
+		return new Pnd(apps);
+	}
 	public Pnd? get_pnd(string id) { return DataCache.get_pnd(id); }
 	public App? get_app(string unique_id) { return DataCache.get_app(unique_id); }
 	public Gee.List<Pnd> get_all_pnds() { return DataCache.get_all_pnds(); }

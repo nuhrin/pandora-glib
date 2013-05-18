@@ -50,30 +50,14 @@ namespace Pandora.Apps
 
 			// scan for app info
 			var results = discovery_search(_apps_config.searchpath, _apps_config.overrides_searchpath);
-
-			var head = results.get_head();
-			if (head == null)
+			var apps = get_discovered_apps(results);
+			if (apps == null)
 				return;
-
-			// create app objects
-			var appList = new ArrayList<App>();
-			var currentAppInfo = head;
-			do
-			{
-				var app = new App(*currentAppInfo);
-				appList.add(app);
-
-				var kill = currentAppInfo;
-				currentAppInfo = DiscoverySearchHandle.get_next(currentAppInfo);
-				PndAppInfo.destroy(kill);
-			} while(currentAppInfo != null);
-
-			// reverse app list (due to the way discovery works) and cache
-			for(int index=appList.size-1;index>=0;index--) {
-				var app = appList[index];
-				_app_list.add(app);
+			
+			// and cache
+			_app_list = apps;
+			foreach(var app in apps)
 				_app_id_hash[app.id] = app;
-			}
 
 			// populate Pnd cache
 			var pndAppMap = new Gee.HashMap<string, Gee.ArrayList<App>>();
@@ -97,6 +81,36 @@ namespace Pandora.Apps
 				_pnd_list.add(pnd);
 				_pnd_id_hash[id] = pnd;
 			}
+		}
+		internal static ArrayList<App>? get_discovered_apps(DiscoverySearchHandle? handle) {
+			if (handle == null)
+				return null;
+			
+			var head = handle.get_head();
+			if (head == null)
+				return null;
+
+			// create app objects
+			var appList = new ArrayList<App>();
+			var currentAppInfo = head;
+			do
+			{
+				var app = new App(*currentAppInfo);
+				appList.add(app);
+
+				var kill = currentAppInfo;
+				currentAppInfo = DiscoverySearchHandle.get_next(currentAppInfo);
+				PndAppInfo.destroy(kill);
+			} while(currentAppInfo != null);
+
+			// reverse app list (due to the way discovery works)
+			var apps = new ArrayList<App>();
+			for(int index=appList.size-1;index>=0;index--) {
+				var app = appList[index];
+				apps.add(app);
+			}
+			
+			return apps;
 		}
 		internal static void clear() {
 			_app_list = null;

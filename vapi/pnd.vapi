@@ -166,14 +166,7 @@ namespace pnd.apps {
 
 	// discovery_file() [pnd_disco_file()]
 	[CCode (cname="pnd_disco_file")]
-	public DiscoveryFileHandle discovery_file(string path, string filename);
-	[Compact]
-	[CCode (cname="void", free_function="pnd_box_delete")]
-	public class DiscoveryFileHandle {
-		DiscoveryFileHandle() {}
-		[CCode (cname="pnd_box_get_head")]
-		public PndAppInfo* get_item();
-	}
+	public DiscoverySearchHandle discovery_file(string path, string filename);	
 
 	// PndAppInfo and related enums [pnd_disco_t]
 	[CCode (cname="pnd_object_type_t")]
