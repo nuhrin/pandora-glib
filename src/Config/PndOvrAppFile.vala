@@ -39,8 +39,8 @@ namespace Pandora
 				is_new = true;
 			}
 			~PndOvrAppFile() {
-				if (is_new == true && was_written == false) {
-					// remove the ovr file, since it was newly created but not written to
+				if ((is_new == true && was_written == false) || (was_written == true && has_value() == false)) {
+					// remove the ovr file, since it was either 1) newly created but not written to, or 2) written with no values
 					if (FileUtils.test(get_fullpath(), FileTest.EXISTS) == true)
 						FileUtils.remove(get_fullpath());
 				}
@@ -57,9 +57,11 @@ namespace Pandora
 						return (uint)cs;
 					return null;
 				}
-				set { 
-					if (value == null)
+				set {
+					if (value == null) {
+						set_int(resolve_key("clockspeed"), 0); 
 						unset(resolve_key("clockspeed"));
+					}
 					else
 						set_int(resolve_key("clockspeed"), (int)value); 
 				}
@@ -68,18 +70,20 @@ namespace Pandora
 				get { return get_string(resolve_key("appdata")); }
 				set { set_string(resolve_key("appdata"), value); }
 			}
-			public string? main_category
-			{
+			public string? main_category {
 				get { return get_string(resolve_key("maincategory")); }
 				set { set_string(resolve_key("maincategory"), value); }
 			}
-			public string? sub_category
-			{
+			public string? sub_category {
 				get { return get_string(resolve_key("maincategorysub1")); }
 				set { set_string(resolve_key("maincategorysub1"), value); }
 			}
 			
 			string resolve_key(string key) { return "Application-%u.%s".printf(subapp_number, key); }			
+			
+			bool has_value() {
+				return (title != null || clockspeed != null || appdata != null || main_category != null || sub_category != null);
+			}
 		}		
 	}
 }

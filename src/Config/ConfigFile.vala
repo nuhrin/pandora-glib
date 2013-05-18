@@ -79,12 +79,13 @@ namespace Pandora
 
 				if (handle.write(fullpath) == 0)
 					return false;
+
 				was_written = true;
 				is_dirty = false;
 				return true;
 			}
 
-			protected unowned string get_fullpath() { return fullpath; }
+			public unowned string get_fullpath() { return fullpath; }
 
 			protected unowned string? get_string(string key, string? default_value=null) {
 				if (handle == null)
@@ -97,7 +98,7 @@ namespace Pandora
 			protected void set_string(string key, string? value) {
 				if (handle == null)
 					return;
-					
+
 				if (value == null || value.strip() == "") {
 					if (handle.unset(key) == true)
 						is_dirty = true;
