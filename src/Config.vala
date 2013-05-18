@@ -30,6 +30,29 @@ namespace Pandora
 	{
 		public static AppsConfigFile get_config_apps() throws KeyFileError { return new AppsConfigFile(); }
 		public static DesktopConfigFile get_config_desktop() throws KeyFileError { return new DesktopConfigFile(); }
-
+		
+		public static PndOvrFile get_pnd_ovr_file(string pnd_path) throws KeyFileError, FileError {	
+			var ovr_path = PndOvrFile.get_pnd_ovr_path(pnd_path);
+			if (FileUtils.test(ovr_path, FileTest.EXISTS) == true)
+				return new PndOvrFile(ovr_path);
+			
+			// attempt to create the ovr file (which will be deleted if no changes are written)
+			if (FileUtils.set_contents(ovr_path, "") == false)
+				throw new FileError.FAILED("Unable to create '%s'.".printf(ovr_path));
+				
+			return new PndOvrFile.new_file(ovr_path);			
+		}
+		
+		public static PndOvrAppFile get_pnd_ovr_app_file(string pnd_path, uint subapp_number) throws KeyFileError, FileError {	
+			var ovr_path = PndOvrFile.get_pnd_ovr_path(pnd_path);
+			if (FileUtils.test(ovr_path, FileTest.EXISTS) == true)
+				return new PndOvrAppFile(ovr_path, subapp_number);
+			
+			// attempt to create the ovr file (which will be deleted if no changes are written)
+			if (FileUtils.set_contents(ovr_path, "") == false)
+				throw new FileError.FAILED("Unable to create '%s'.".printf(ovr_path));
+				
+			return new PndOvrAppFile.new_file(ovr_path,subapp_number);			
+		}
 	}
 }

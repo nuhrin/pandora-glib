@@ -68,6 +68,9 @@ namespace Pandora
 				this.fullpath = fullpath;
 			}
 
+			public bool has_changes { get { return is_dirty; } }
+			public bool was_written { get; private set; }
+			
 			public bool write() {
 				if (handle == null)
 					return false;
@@ -76,11 +79,14 @@ namespace Pandora
 
 				if (handle.write(fullpath) == 0)
 					return false;
+				was_written = true;
 				is_dirty = false;
 				return true;
 			}
 
-			protected unowned string get_string(string key, string default_value) {
+			protected unowned string get_fullpath() { return fullpath; }
+
+			protected unowned string? get_string(string key, string? default_value=null) {
 				if (handle == null)
 					return default_value;
 				unowned string value = handle.get_string(key);
@@ -88,9 +94,16 @@ namespace Pandora
 					return default_value;
 				return value;
 			}
-			protected void set_string(string key, string value) {
+			protected void set_string(string key, string? value) {
 				if (handle == null)
 					return;
+					
+				if (value == null || value.strip() == "") {
+					if (handle.unset(key) == true)
+						is_dirty = true;
+					return;
+				}
+				
 				handle.set_string(key, value);
 				is_dirty = true;
 			}
@@ -102,8 +115,14 @@ namespace Pandora
 			protected void set_int(string key, int value) {
 				if (handle == null)
 					return;
-				handle.set_int(key, value);
+				handle.set_string(key, value.to_string());
 				is_dirty = true;
+			}
+
+			protected bool unset(string key) {
+				if (handle == null)
+					return false;
+				return handle.unset(key);
 			}
 
 			private static unowned string? get_filename_from_id(ConfFilenameId file_id) {

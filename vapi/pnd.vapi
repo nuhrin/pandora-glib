@@ -316,8 +316,22 @@ namespace pnd.conf {
 		[CCode (cname="pnd_conf_set_int")]
 		public int set_int(string key, int value);
 
+		public bool unset(string key) {
+			void *kv = find_by_key(key);
+			if (kv == null)
+				return false;
+				
+			delete_node(kv);
+			return true;
+		}
+
 		[CCode (cname="pnd_conf_write")]
 		public uint write(string fullpath);
+		
+		[CCode (cname="pnd_box_find_by_key")]
+		void* find_by_key(string key);
+		[CCode (cname="pnd_box_delete_node")]
+		void delete_node(void* value);
 	}
 
 	/* we would like to open config files based on enums, so as to minimize specifying

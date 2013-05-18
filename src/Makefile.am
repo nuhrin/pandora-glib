@@ -17,6 +17,8 @@ libpandora_glib_la_SOURCES = \
 	Config/ConfigFile.vala \
 	Config/AppsConfigFile.vala \
 	Config/DesktopConfigFile.vala \
+	Config/PndOvrAppFile.vala \
+	Config/PndOvrFile.vala \
 	$(NULL)
 
 libpandora_glib_la_VALAFLAGS = \
