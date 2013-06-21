@@ -11,6 +11,7 @@ libpandora_glib_la_SOURCES = \
 	Config.vala \
 	Utility.vala \
 	Apps/App.vala \
+	Apps/AppList.vala \
 	Apps/DataCache.vala \
 	Apps/enums.vala \
 	Apps/Pnd.vala \

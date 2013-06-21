@@ -189,8 +189,9 @@ namespace pnd.apps {
 //~ 		CUSTOM1 = (1<<30),
 //~ 		CUSTOM2 = (1<<31)
 //~ 	}
-	[CCode (cname="pnd_disco_t", destroy_function="pnd_disco_destroy", has_type_id=false, has_copy_function=false)]
-	public struct PndAppInfo {
+	[Compact]
+	[CCode (cname="pnd_disco_t", free_function="pnd_disco_destroy")]
+	public class PndAppInfo {
 		// base
 		public ObjectType object_type;		// see enum above
 		public string object_path;			// directory containing pnd or PXML.xml (does not include filename)

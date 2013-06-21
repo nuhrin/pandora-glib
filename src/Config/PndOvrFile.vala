@@ -2,7 +2,7 @@
  * 
  * Copyright (C) 2013 nuhrin
  * 
- * This file is part of Pandafe.
+ * This file is part of pandora-glib.
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

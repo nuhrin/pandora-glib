@@ -33,14 +33,14 @@ namespace Pandora.Apps
 		static Gee.Map<string, Pnd> _pnd_id_hash;
 		static Gee.List<Pnd> _pnd_list;
 		static Config.AppsConfigFile _apps_config;
-
+		
 		internal static void rescan() {
-			_app_list = new ArrayList<App>();
 			_app_id_hash = new HashMap<string, App>(null, null, (a,b) => (a==b));
 			_pnd_list = new ArrayList<Pnd>();
 			_pnd_id_hash = new Gee.HashMap<string, Pnd>();
 			_apps_config = null;
-
+			_app_list = new ArrayList<App>();
+			
 			try {
 				_apps_config = Config.get_config_apps();
 			} catch(KeyFileError e) {
@@ -49,8 +49,7 @@ namespace Pandora.Apps
 			}
 
 			// scan for app info
-			var results = discovery_search(_apps_config.searchpath, _apps_config.overrides_searchpath);
-			var apps = get_discovered_apps(results);
+			var apps = AppList.discovery_search(_apps_config.searchpath, _apps_config.overrides_searchpath);
 			if (apps == null)
 				return;
 			
@@ -80,44 +79,14 @@ namespace Pandora.Apps
 				var pnd = new Pnd(pndAppMap[id]);
 				_pnd_list.add(pnd);
 				_pnd_id_hash[id] = pnd;
-			}
-		}
-		internal static ArrayList<App>? get_discovered_apps(DiscoverySearchHandle? handle) {
-			if (handle == null)
-				return null;
-			
-			var head = handle.get_head();
-			if (head == null)
-				return null;
-
-			// create app objects
-			var appList = new ArrayList<App>();
-			var currentAppInfo = head;
-			do
-			{
-				var app = new App(*currentAppInfo);
-				appList.add(app);
-
-				var kill = currentAppInfo;
-				currentAppInfo = DiscoverySearchHandle.get_next(currentAppInfo);
-				PndAppInfo.destroy(kill);
-			} while(currentAppInfo != null);
-
-			// reverse app list (due to the way discovery works)
-			var apps = new ArrayList<App>();
-			for(int index=appList.size-1;index>=0;index--) {
-				var app = appList[index];
-				apps.add(app);
-			}
-			
-			return apps;
+			}			
 		}
 		internal static void clear() {
-			_app_list = null;
 			_app_id_hash = null;
 			_pnd_list = null;
 			_pnd_id_hash = null;
 			_apps_config = null;
+			_app_list = null;			
 		}
 
 		internal static Pnd? get_pnd(string id) {
@@ -154,5 +123,6 @@ namespace Pandora.Apps
 				return PNDRUN_DEFAULT;
 			}
 		}
+		
 	}
 }

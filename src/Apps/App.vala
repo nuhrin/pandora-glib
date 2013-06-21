@@ -29,9 +29,12 @@ namespace Pandora.Apps
 {
 	public class App
 	{
-		internal PndAppInfo info;
+		internal unowned PndAppInfo info;
 		internal App(PndAppInfo app) {
 			this.info = app;
+		}
+		~App() {
+			PndAppInfo.destroy(info);
 		}
 
 		public unowned string id { get { return info.unique_id; } }

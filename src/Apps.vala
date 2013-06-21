@@ -28,7 +28,7 @@ using pnd.conf;
 namespace Pandora.Apps
 {
 	public Pnd? get_pnd_direct(string path, string filename) {
-		var apps = DataCache.get_discovered_apps(discovery_file(path, filename));
+		var apps = AppList.discovery_file(path, filename);
 		if (apps == null)
 			return null;
 		return new Pnd(apps);
