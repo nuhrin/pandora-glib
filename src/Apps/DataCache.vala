@@ -59,26 +59,24 @@ namespace Pandora.Apps
 				_app_id_hash[app.id] = app;
 
 			// populate Pnd cache
-			var pndAppMap = new Gee.HashMap<string, Gee.ArrayList<App>>();
-			var pndAppIdFileHash = new Gee.HashSet<string>();
-			var pndIdList = new Gee.ArrayList<string>();
+			var pnd_path_apps_map = new Gee.HashMap<string, Gee.ArrayList<App>>();
+			var pnd_path_list = new Gee.ArrayList<string>();
 			// group apps by pnd
 			foreach(var app in _app_list) {
-				string pndId = (app.package_id != null) ? app.package_id : app.id;
-				if (pndAppMap.has_key(pndId) == false) {
-					pndAppMap[pndId] = new Gee.ArrayList<App>();
-					pndIdList.add(pndId);
+				var path = app.get_fullpath();
+				if (pnd_path_apps_map.has_key(path) == false) {
+					pnd_path_apps_map[path] = new Gee.ArrayList<App>();
+					pnd_path_list.add(path);
 				}
-				var apphash = app.filename + app.id;
-				if (pndAppIdFileHash.contains(apphash) == false) {
-					pndAppIdFileHash.add(apphash);
-					pndAppMap[pndId].add(app);
-				}
+				pnd_path_apps_map[path].add(app);
 			}
-			foreach(var id in pndIdList) {
-				var pnd = new Pnd(pndAppMap[id]);
+			foreach(var path in pnd_path_list) {
+				var pnd_apps = pnd_path_apps_map[path];
+				if (pnd_apps.size == 0)
+					continue;
+				var pnd = new Pnd(pnd_apps);
 				_pnd_list.add(pnd);
-				_pnd_id_hash[id] = pnd;
+				_pnd_id_hash[pnd.id] = pnd;
 			}			
 		}
 		internal static void clear() {

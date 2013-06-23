@@ -66,8 +66,10 @@ namespace Pandora.Apps
 			var currentAppInfo = head;
 			do
 			{
-				var app = new App(currentAppInfo);
-				appList.add(app);
+				if (currentAppInfo->unique_id != null) {
+					var app = new App(currentAppInfo);
+					appList.add(app);
+				}
 
 				currentAppInfo = pnd.apps.DiscoverySearchHandle.get_next(currentAppInfo);
 			} while(currentAppInfo != null);

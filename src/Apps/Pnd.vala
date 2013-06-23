@@ -30,6 +30,10 @@ namespace Pandora.Apps
 	public class Pnd
 	{
 		internal Pnd(Gee.List<App> apps) {
+			if (apps.size == 0) {
+				GLib.message("Invalid call to Pandora.Apps.Pnd() with empty apps list");
+				assert_not_reached();
+			}
 			this.apps = apps.read_only_view;
 			this.first_app = apps[0];
 		}
