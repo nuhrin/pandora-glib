@@ -12,7 +12,15 @@ AM_MAINTAINER_MODE
 # Add config arguments.
 AC_ARG_ENABLE(devhelp, AS_HELP_STRING([--enable-devhelp], [Enable devhelp book generation]), enable_devhelp=$enableval, enable_devhelp=no)
 AM_CONDITIONAL(ENABLE_DEVHELP, test x$enable_devhelp = xyes)
-
+AC_ARG_ENABLE([compile],
+	[AS_HELP_STRING([--disable-compile],
+		[generate vapi and C source, but don't compile it])],
+	[],
+	[enable_compile=yes])
+DO_COMPILE=yes
+AS_IF([test "x$enable_compile" = xno], [DO_COMPILE=no])
+AM_CONDITIONAL([DO_COMPILE], [test "x$DO_COMPILE" = xyes])
+AM_CONDITIONAL([DONT_COMPILE], [test "x$DO_COMPILE" = xno])
 
 # Checks for programs.
 AC_PROG_CC
@@ -43,12 +51,13 @@ AC_SUBST(GLIB_LIBS)
 # Check for libgee superproject, then system
 GEE_SEARCH
 
-# Check for libpnd.	
-AC_SEARCH_LIBS([pnd_box_new], [pnd], [], [AC_MSG_ERROR([libpnd not found.])], [-lstdc++])
-AC_CHECK_HEADERS([pnd_container.h], [], [AC_MSG_ERROR([libpnd headers not found.])])
-PND_LIBS="$LIBS -lstdc++"
-AC_SUBST(PND_LIBS)
-
+AS_IF([test "x$DO_COMPILE" = xyes], [
+	# Check for libpnd.	
+	AC_SEARCH_LIBS([pnd_box_new], [pnd], [], [AC_MSG_ERROR([libpnd not found.])], [-lstdc++])
+	AC_CHECK_HEADERS([pnd_container.h], [], [AC_MSG_ERROR([libpnd headers not found.])])
+	PND_LIBS="$LIBS -lstdc++"
+	AC_SUBST(PND_LIBS)
+])
 
 AC_CONFIG_FILES([
 	pandora-glib.pc

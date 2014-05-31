@@ -2,11 +2,9 @@ NULL =
 
 AUTOMAKE_OPTIONS = subdir-objects
 
-lib_LTLIBRARIES = \
-  libpandora-glib.la
-  $(NULL)
+lib_LTLIBRARIES =
 
-libpandora_glib_la_SOURCES = \
+pandora_glib_VALASOURCES = \
 	Apps.vala \
 	Config.vala \
 	Utility.vala \
@@ -22,13 +20,32 @@ libpandora_glib_la_SOURCES = \
 	Config/PndOvrFile.vala \
 	$(NULL)
 
-libpandora_glib_la_VALAFLAGS = \
+pandora_glib_VALAFLAGS = \
 	-H pandora-glib.h --vapi pandora-glib.vapi --vapidir $(srcdir)/../vapi \
 	--pkg gobject-2.0 --pkg gee-0.8 --pkg pnd --pkg config \
 	--library pandora-glib \
-    $(GEE_VALAFLAGS) \
-    $(VALAFLAGS) \
+	$(GEE_VALAFLAGS) \
+	$(VALAFLAGS) \
 	$(NULL)
+
+if DONT_COMPILE
+libpandora_glib_la_vala.stamp: $(pandora_glib_VALASOURCES)
+	@$(VALA_V)$(VALAC) -C $(pandora_glib_VALAFLAGS) $^
+	@touch $@
+
+BUILT_SOURCES = libpandora_glib_la_vala.stamp
+endif
+
+if DO_COMPILE
+lib_LTLIBRARIES += \
+  libpandora-glib.la
+  $(NULL)
+
+libpandora_glib_la_SOURCES = \
+	$(pandora_glib_VALASOURCES) \
+	$(NULL)
+
+libpandora_glib_la_VALAFLAGS = $(pandora_glib_VALAFLAGS)
  
 libpandora_glib_la_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
@@ -56,4 +73,4 @@ dist_vapi_DATA = \
 CLEANFILES = \
   pandora-glib.vapi \
   $(NULL)
-
+endif
