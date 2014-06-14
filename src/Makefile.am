@@ -21,7 +21,7 @@ pandora_glib_VALASOURCES = \
 	$(NULL)
 
 pandora_glib_VALAFLAGS = \
-	-H pandora-glib.h --vapi pandora-glib.vapi --vapidir $(srcdir)/../vapi \
+	-H pandora-glib.h --vapi pandora-glib.vapi --vapidir ../vapi \
 	--pkg gobject-2.0 --pkg gee-0.8 --pkg pnd --pkg config \
 	--library pandora-glib \
 	$(GEE_VALAFLAGS) \
@@ -47,7 +47,7 @@ libpandora_glib_la_SOURCES = \
 
 libpandora_glib_la_VALAFLAGS = $(pandora_glib_VALAFLAGS)
  
-libpandora_glib_la_CPPFLAGS = \
+AM_CPPFLAGS = \
 	$(GLIB_CFLAGS) \
 	$(GEE_CFLAGS) \
 	$(NULL)
